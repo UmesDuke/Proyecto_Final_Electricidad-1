@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'gt.edu.meso'
+version '1.0'
+
+sourceCompatibility = 1.8
+mainClassName = "gt.edu.meso.App"
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+  jmeVer = '3.3.0-stable'
+}
+
+project(":assets") {
+    apply plugin: "java"
+
+    buildDir = rootProject.file("build/assets")
+
+    sourceSets {
+        main {
+            resources {
+                srcDir '.'
+            }
+        }
+    }
+}
+
+dependencies {
+  // JARS
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation files('libs/monkey-v1.0.0.jar');
+
+  // jme3
+  implementation "org.jmonkeyengine:jme3-core:$jmeVer"
+  implementation "org.jmonkeyengine:jme3-desktop:$jmeVer"
+  implementation "org.jmonkeyengine:jme3-lwjgl:$jmeVer"
+
+  // Look and Feel
+  implementation 'com.formdev:flatlaf:2.1'
+
+  // https://mvnrepository.com/artifact/org.json/json
+  implementation group: 'org.json', name: 'json', version: '20220320'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
+

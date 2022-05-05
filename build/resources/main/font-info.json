@@ -1,0 +1,20 @@
+{
+    "font" : [
+        {
+            "name": "Source Sans Pro",
+            "path": "/Fonts/SourceSansPro/Source Sans Pro.ttf"
+        },
+        {
+            "name": "Source Sans Pro Black",
+            "path": "/Fonts/SourceSansPro/Source Sans Pro Black.ttf"
+        },
+        {
+            "name": "Source Sans Pro SemiBold",
+            "path": "/Fonts/SourceSansPro/Source Sans Pro SemiBold.ttf"
+        },
+        {
+            "name": "Cantarell",
+            "path": "/Fonts/Cantarell-test/Cantarell.ttf"
+        }
+    ]
+}
