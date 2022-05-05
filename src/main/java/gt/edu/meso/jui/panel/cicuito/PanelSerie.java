@@ -17,16 +17,13 @@ package gt.edu.meso.jui.panel.cicuito;
 
 import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.circuito.Serie;
-import gt.edu.meso.util.PanelTree;
-import javax.swing.JPanel;
 
 /**
  * @author wil
  */
-public class PanelSerie extends JPanel {
+public class PanelSerie extends PanelCircuito {
     
     private Circuito circuitoSerie;
-    private PanelTree panelTree;
     
     public PanelSerie() {
         initComponents();
@@ -38,46 +35,26 @@ public class PanelSerie extends JPanel {
     private void initComponents() {
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setLayout(new java.awt.GridLayout(3, 0));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 228, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 62, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     final void componentesAdd() {
         circuitoSerie = new Serie();
-        panelTree = new PanelTree(this);
-        
-        PanelResistencia p1 = new PanelResistencia("R1", false);
-        PanelResistencia p2 = new PanelResistencia("R2", false);
-        PanelResistencia p3 = new PanelResistencia("R3", false);
-        
-        panelTree.add(p1);
-        panelTree.add(p2);
-        panelTree.add(p3);
-        
-        circuitoSerie.agregar(p1.getResistor());
-        circuitoSerie.agregar(p2.getResistor());
-        circuitoSerie.agregar(p3.getResistor());
+        initDefResistencias();
     }
 
-        
-    public void add() {
-        PanelResistencia pr = new PanelResistencia(("R" + (circuitoSerie.cantidad() + 1)), true);
-        panelTree.add(pr);
-        circuitoSerie.agregar(pr.getResistor());
-    }
-    
-    public void setFuente(double fuente) {
-        circuitoSerie.setFuente(fuente);
-        circuitoSerie.start();
-    }
-
-    public double getFuente() {
-        return circuitoSerie.getFuente();
-    }
-
+    @Override
     public Circuito getCircuito() {
-        if (circuitoSerie != null) {
-            circuitoSerie.start();
-        }
         return circuitoSerie;
     }
 

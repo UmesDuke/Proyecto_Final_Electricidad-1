@@ -285,7 +285,8 @@ public class Entrada extends Window {
             final PanelCircuitos circuitos = new PanelCircuitos();
             jScrollPane1.setViewportView(circuitos);
             
-            setSize(new Dimension(1160, 650));
+            setSize(new Dimension(1360, 850));
+            center(null);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     
