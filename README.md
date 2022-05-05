@@ -1,10 +1,12 @@
 # Proyecto Final Electricidad 1
 Proyecto Final Electricidad 1, Primer Semestre 2021, Área Común Facultad De Ingeniería
-Fase #1: Sistema de aprendizaje de valores de Resistores.
+# Fase 1:
+Sistema de aprendizaje de valores de Resistores.
 El proyecto a realizar para cierre del primer semestre del año 2022 consta del diseño y
 desarrollo de un software que apoye al aprendizaje de los colores y valores de los resistores de
 bandita:
-Version 1: El programa debe mostrar al usuario de manera aleatoria 4 colores correspondientes
+
+<b>Version 1</b>: El programa debe mostrar al usuario de manera aleatoria 4 colores correspondientes
 a un resistor de (4 bandas) o 5 colores correspondientes a un resistor de cinco bandas. El usuario
 deberá adivinar el valor del resistor, el programa le dará un tiempo de espera para ingresar su
 respuesta y mostrarle el valor correcto. Puede utilizar prefijos SI (mili, kilo, mega,..).
