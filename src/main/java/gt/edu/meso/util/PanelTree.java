@@ -15,7 +15,6 @@
  */
 package gt.edu.meso.util;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -25,38 +24,33 @@ import javax.swing.JPanel;
  * @author wil
  */
 public class PanelTree {
-static final int DEF = 3;
+static final int DEF = 7;
     
     private final ArrayList<JComponent> components;
-    private final Dimension preSize;
     private final JPanel panel;
-
-    int cols    = 0;
-    int rows    = DEF;
-    int length  = 1;
     
     public PanelTree(JPanel panel) {
         this.components = new ArrayList<>();
-        this.preSize = panel.getPreferredSize();
         
-        panel.setLayout(new GridLayout(rows, cols));
+        panel.setLayout(new GridLayout(DEF, 0));
         this.panel   = panel;        
     }
     
     public void add(JComponent jc) {
-        final Dimension d = jc.getPreferredSize();
-        
-        if ((d.height * length) > preSize.height) {
-            rows++;
-        }
-        
         panel.add(jc);
-        panel.setLayout(new GridLayout(components.size() +1, 0));
-        
+       
+        checkLayout();
         components.add(jc);
-        length++;
     }
 
+    private void checkLayout() {
+        if ((components.size() + 1) < DEF) {
+            panel.setLayout(new GridLayout(DEF, 0));
+        } else {
+            panel.setLayout(new GridLayout(components.size() + 1, 0));
+        }
+    }
+    
     public ArrayList<JComponent> getComponents() {
         return components;
     }
@@ -64,14 +58,6 @@ static final int DEF = 3;
     public synchronized void remove(JComponent jc) {
         panel.remove(jc);
         components.remove(jc);
-        
-        length--;
-        rows--;
-        
-        if (rows < DEF) {
-            rows = DEF;
-        }
-        
-        panel.setLayout(new GridLayout(components.size() +1, 0));
+        checkLayout();
     }
 }
