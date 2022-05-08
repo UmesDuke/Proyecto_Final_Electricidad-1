@@ -21,7 +21,7 @@ import gt.edu.meso.circuito.Serie;
 /**
  * @author wil
  */
-public class PanelSerie extends PanelCircuito {
+public class PanelSerie extends JPanelCircuito {
     
     private Circuito circuitoSerie;
     

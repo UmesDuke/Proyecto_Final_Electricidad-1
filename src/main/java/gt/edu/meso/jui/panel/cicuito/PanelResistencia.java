@@ -15,25 +15,31 @@
  */
 package gt.edu.meso.jui.panel.cicuito;
 
+import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.circuito.Resistor;
 import gt.edu.meso.jui.Window;
+import gt.edu.meso.util.Notation;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
  * @author wil
  */
+@SuppressWarnings("unchecked")
 public class PanelResistencia extends JPanel {
 
     private final Resistor resistor;
+    private final Circuito circuito;
+    private Cambios cambios;
     
-    public PanelResistencia(String name, boolean isSelected) {
+    public PanelResistencia(String name, Circuito circuito, boolean isSelected) {
         initComponents();
         if (!isSelected) {
             box.setSelected(false);
             box.setVisible(false);
         }
         this.resistor = new Resistor();
+        this.circuito = circuito;
         this.setID(name);
     }
     @SuppressWarnings("unchecked")
@@ -43,7 +49,7 @@ public class PanelResistencia extends JPanel {
         name = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         in = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        boxNotation = new javax.swing.JComboBox<>();
         box = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -65,10 +71,15 @@ public class PanelResistencia extends JPanel {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ohmios", "K Ohmios", "M Ohmios" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
-        jComboBox1.setFocusable(false);
+        boxNotation.setBackground(new java.awt.Color(255, 255, 255));
+        boxNotation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ohmios", "K Ohmios", "M Ohmios", "G Ohmios" }));
+        boxNotation.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+        boxNotation.setFocusable(false);
+        boxNotation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxNotationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,12 +88,12 @@ public class PanelResistencia extends JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(in, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(boxNotation, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(in, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(jComboBox1)
+            .addComponent(boxNotation)
         );
 
         box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -112,8 +123,8 @@ public class PanelResistencia extends JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void inKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inKeyTyped
+    
+    void setLocalOhmios() {
         synchronized (this) {
             String value = in.getText();
             if (value == null
@@ -123,34 +134,86 @@ public class PanelResistencia extends JPanel {
             
             try {
                 value = value.trim();
-                resistor.setOhmios(Double.parseDouble(value));
+                double d = Double.parseDouble(value);
+                
+                resistor.setOhmios(d);
+                resistor.setEnabled(d > 0);
+                
+                updateNotattion();
+                if (cambios != null) {
+                    cambios.cambio(circuito);
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "El valor \"" + value+ "\" no es valido.", "Error - " + Window.TITLE,
                                                 JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+    private void inKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inKeyTyped
+        setLocalOhmios();
     }//GEN-LAST:event_inKeyTyped
 
-    public void setSelected(boolean selected) { this.box.setSelected(selected);}
+    private void boxNotationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxNotationActionPerformed
+        setLocalOhmios();
+    }//GEN-LAST:event_boxNotationActionPerformed
+
+    public void setSelected(boolean selected)  { this.box.setSelected(selected);}
+    public void setCambios(Cambios<?> cambios) { this.cambios = cambios; }
     public void setID(String name) { 
         this.resistor.setName(name);
         this.box.setToolTipText("Seleccionar " + name);
         this.name.setText(name);       
     }
         
-    public boolean isSelected() { return this.box.isSelected(); };
-    public String getID()       { return this.name.getText();   }    
-    public Resistor getResistor() { return resistor; }
+    public boolean isSelected() { return this.box.isSelected(); }    
+    public String getID()       { return this.name.getText();   }
+    public Cambios<?> getCambios() { return cambios; }
+    public Resistor getResistor()  { return resistor; }
     
     @Override
     public String getName() {
         return getID();
     }
     
+    void updateNotattion() {
+        final Object value = boxNotation.getSelectedItem();
+        if (resistor == null)
+            return;
+        
+        if (value instanceof String 
+                && !((String) value).isEmpty()) {
+            Notation notation;
+            switch (String.valueOf(value)) {
+                case "Ohmios":
+                    notation = new Notation(resistor.getOhmios(),
+                                            Notation.Prefix.Default);
+                    break;
+                case "K Ohmios":
+                    notation = new Notation(resistor.getOhmios(),
+                                            Notation.Prefix.Kilo);
+                    break;
+                case "M Ohmios":
+                    notation = new Notation(resistor.getOhmios(),
+                                            Notation.Prefix.Mega);
+                    break;
+                case "G Ohmios":
+                    notation = new Notation(resistor.getOhmios(),
+                                            Notation.Prefix.Giga);
+                    break;
+                default:
+                    throw new AssertionError(getClass().getName());
+            }
+            if (notation != null) {
+                resistor.setOhmios(notation.getScaleNumber());
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox box;
+    private javax.swing.JComboBox<String> boxNotation;
     private javax.swing.JTextField in;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel name;
     // End of variables declaration//GEN-END:variables

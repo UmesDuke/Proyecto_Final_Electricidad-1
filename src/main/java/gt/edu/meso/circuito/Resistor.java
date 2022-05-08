@@ -24,7 +24,7 @@ public class Resistor {
     private double corriente;
     private double voltios;
     private double potencia;
-    
+        
     private boolean enabled;
     private String name;
 

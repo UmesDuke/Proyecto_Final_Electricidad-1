@@ -29,15 +29,20 @@ public class Paralelo extends Circuito {
 
     @Override
     public double getResistenciaTotal() {
-        double Resistencia_Total=0;
+        double Resistencia_Total = 0;
         int ContR = 0;
-        while(ContR<cantidad()){
-            if (!resistencias.get(ContR).isEnabled())
+        while(ContR < cantidad()){
+            Resistor r = resistencias.get(ContR);            
+            if (r == null || !r.isEnabled() ) {
+                ContR++;
                 continue;
-            
-            Resistencia_Total=Resistencia_Total+(1/resistencias.get(ContR).getOhmios());
+            }
+            Resistencia_Total=Resistencia_Total+(1/r.getOhmios());           
             ContR++;
-        }
+        }        
+        if (Resistencia_Total == 0) {
+            return 0;
+        }        
         Resistencia_Total=(1/Resistencia_Total);
         return Resistencia_Total;
     }
@@ -49,10 +54,12 @@ public class Paralelo extends Circuito {
         while (ContR<cantidad()) {
             
             Resistor Resistencias = resistencias.get(ContR);
-            if (!Resistencias.isEnabled())
+            if (!Resistencias.isEnabled()) {
+                ContR++;
                 continue;
+            }
             
-            Amperaje_Rn=fuente/Resistencias.getOhmios();
+            Amperaje_Rn=fuente/resistencias.get(ContR).getOhmios();
             Potencia_Rn=fuente*Amperaje_Rn;
             
                 Resistencias.setCorriente(Amperaje_Rn);

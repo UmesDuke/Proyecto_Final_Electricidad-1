@@ -15,8 +15,20 @@
  */
 package gt.edu.meso.jui.panel;
 
+import gt.edu.meso.circuito.Circuito;
+import gt.edu.meso.circuito.Paralelo;
+import gt.edu.meso.circuito.Resistor;
+import gt.edu.meso.circuito.Serie;
+import gt.edu.meso.jui.Window;
+import gt.edu.meso.jui.panel.cicuito.PanelParalelo;
 import gt.edu.meso.jui.panel.cicuito.PanelSerie;
+import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Utils;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 
 /**
  * @author wil
@@ -24,6 +36,7 @@ import javax.swing.JPanel;
 public class PanelCircuitos extends JPanel {
     
     private PanelSerie panelSerie;
+    private PanelParalelo panelParalelo;
     
     /**
      * Creates new form PanelCalculadora
@@ -38,8 +51,20 @@ public class PanelCircuitos extends JPanel {
      */
     protected final void componentesAdd() {
         panelSerie = new PanelSerie();
+        panelParalelo = new PanelParalelo();
+        
+        panelSerie.setFuente(5);
+        panelSerie.addCambiosListener((Serie circuito) -> {
+            circuito.start();
+            aplicarCambios(circuito);
+        });
+        panelParalelo.addCambiosListener((Paralelo circuito) -> {
+            circuito.start();
+            aplicarCambios(circuito);
+        });
         
         view.setViewportView(panelSerie);
+        updateRS();
     }
     
     /**
@@ -65,26 +90,26 @@ public class PanelCircuitos extends JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        At = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        Pt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        Rt = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        resistor = new javax.swing.JComboBox<>();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        r_amperios = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        r_potencia = new javax.swing.JTextField();
+        r_voltios = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        r_ohmios = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        fiedlVolt = new javax.swing.JTextField();
+        ntVol = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -177,25 +202,25 @@ public class PanelCircuitos extends JPanel {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/bd_nextpage.png"))); // NOI18N
         jLabel4.setText("Corriente total:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField1.setText("0");
+        At.setEditable(false);
+        At.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        At.setText("0");
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/bd_nextpage.png"))); // NOI18N
         jLabel5.setText("Potencia total:");
 
-        jTextField2.setEditable(false);
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField2.setText("0");
+        Pt.setEditable(false);
+        Pt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        Pt.setText("0");
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/bd_nextpage.png"))); // NOI18N
-        jLabel6.setText("Corriente total:");
+        jLabel6.setText("Resistencia total:");
 
-        jTextField3.setEditable(false);
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField3.setText("0");
+        Rt.setEditable(false);
+        Rt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        Rt.setText("0");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), "Resistencias"));
@@ -204,35 +229,40 @@ public class PanelCircuitos extends JPanel {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Seleccionar Resistencia:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "R1", "R2", "R3" }));
+        resistor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<default...?>", "R1", "R2", "R3" }));
+        resistor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resistorActionPerformed(evt);
+            }
+        });
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/b_help.png"))); // NOI18N
         jLabel8.setText("Corriente:");
 
-        jTextField4.setEditable(false);
-        jTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField4.setText("0");
+        r_amperios.setEditable(false);
+        r_amperios.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        r_amperios.setText("0");
 
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/b_help.png"))); // NOI18N
         jLabel9.setText("Potencia:");
 
-        jTextField5.setEditable(false);
-        jTextField5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField5.setText("0");
+        r_potencia.setEditable(false);
+        r_potencia.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        r_potencia.setText("0");
 
-        jTextField6.setEditable(false);
-        jTextField6.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField6.setText("0");
+        r_voltios.setEditable(false);
+        r_voltios.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        r_voltios.setText("0");
 
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/b_help.png"))); // NOI18N
         jLabel10.setText("Voltios:");
 
-        jTextField7.setEditable(false);
-        jTextField7.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField7.setText("0");
+        r_ohmios.setEditable(false);
+        r_ohmios.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        r_ohmios.setText("0");
 
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/b_help.png"))); // NOI18N
@@ -247,27 +277,27 @@ public class PanelCircuitos extends JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(r_amperios))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(r_potencia))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(r_voltios))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(r_ohmios))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resistor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -277,25 +307,25 @@ public class PanelCircuitos extends JPanel {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resistor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(r_amperios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(r_potencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(r_voltios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(r_ohmios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -309,7 +339,6 @@ public class PanelCircuitos extends JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -317,9 +346,10 @@ public class PanelCircuitos extends JPanel {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(At, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Pt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Rt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel3))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -328,18 +358,18 @@ public class PanelCircuitos extends JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(At, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Pt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Rt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -349,10 +379,20 @@ public class PanelCircuitos extends JPanel {
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Voltage del circuito:");
 
-        jTextField8.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField8.setText("5");
+        fiedlVolt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        fiedlVolt.setText("5");
+        fiedlVolt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fiedlVoltKeyReleased(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<default>", "K", "M", "G" }));
+        ntVol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<default>", "K", "M", "G" }));
+        ntVol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ntVolActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -372,10 +412,10 @@ public class PanelCircuitos extends JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fiedlVolt, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 93, Short.MAX_VALUE))))
+                                .addComponent(ntVol, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 76, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -404,61 +444,236 @@ public class PanelCircuitos extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel12)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel12)
+                            .addComponent(fiedlVolt)
+                            .addComponent(ntVol)))
                     .addComponent(view, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    Circuito getLocalCircuito() {
+        return opcionSerie.isSelected() ? panelSerie.getCircuito()    : opcionParalelo.isSelected() 
+                                        ? panelParalelo.getCircuito() : null;
+    }
+    
+    void updateRS() {
+        synchronized (this) {
+            final Circuito c = getLocalCircuito();
+        
+            if (c == null)
+                return;
+
+            List<Resistor> rs = c.getResistencias();
+            DefaultComboBoxModel<String> mode = (DefaultComboBoxModel<String>)
+                                                resistor.getModel();
+
+            final Object select = mode.getSelectedItem();
+
+            mode.removeAllElements();
+            mode.addElement("<default...?>");
+
+            boolean exist = false;
+            if (rs != null) {
+                for (final Resistor r : rs) {
+                    if (r == null) 
+                        continue;
+
+                    mode.addElement(r.getName());
+                    if (r.getName().equals(select)) {
+                        exist = true;
+                    }
+                }
+            }
+
+            if (select instanceof String 
+                    && !((String) select).isEmpty()) {
+                if (exist) {
+                    mode.setSelectedItem(select);
+                }
+            } else {
+                resistor.setSelectedIndex(0);
+            }
+        }
+    }
+    
+    void aplicarCambios(Circuito c) {
+        if (c == null)
+            return;
+        
+        Notation at = Notation.determine(c.getAmperajeTotal());
+        Notation pt = Notation.determine(c.getPotenciaTotal());
+        Notation rt = Notation.determine(c.getResistenciaTotal());
+        
+        At.setText(Utils.doubleFormat(at.getUnscaleNumber()) + at.getPrefix().getPrefix());
+        Pt.setText(Utils.doubleFormat(pt.getUnscaleNumber()) + pt.getPrefix().getPrefix());
+        Rt.setText(Utils.doubleFormat(rt.getUnscaleNumber()) + rt.getPrefix().getPrefix());
+    }
+    
+    void updateNTVol() {
+        final Object value = ntVol.getSelectedItem();
+        if (resistor == null)
+            return;
+        
+        if (value instanceof String 
+                && !((String) value).isEmpty()) {
+            
+            Circuito c = getLocalCircuito();
+            double vol = c.getFuente();
+            
+            Notation notation;
+            
+            switch (String.valueOf(value)) {
+                case "<default>":
+                    notation = new Notation(vol,
+                                            Notation.Prefix.Default);
+                    break;
+                case "K":
+                    notation = new Notation(vol,
+                                            Notation.Prefix.Kilo);
+                    break;
+                case "M":
+                    notation = new Notation(vol,
+                                            Notation.Prefix.Mega);
+                    break;
+                case "G":
+                    notation = new Notation(vol,
+                                            Notation.Prefix.Giga);
+                    break;
+                default:
+                    throw new RuntimeException(getClass().getName());
+            }
+            if (notation != null) {
+                c.setFuente(notation.getScaleNumber());                
+                aplicarCambios(c);
+            }
+        }
+    }
+    
     private void opcionSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionSerieActionPerformed
         if (opcionSerie.isSelected()) {
-            
-            
+           final JViewport viewport = view.getViewport();
+           if (!(viewport.getView() instanceof PanelSerie)) {
+               view.setViewportView(panelSerie);
+           }
         }
     }//GEN-LAST:event_opcionSerieActionPerformed
 
     private void opcionParaleloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionParaleloActionPerformed
         if (opcionParalelo.isSelected()) {
-            
-            
+           final JViewport viewport = view.getViewport();
+           if (!(viewport.getView() instanceof PanelParalelo)) {
+               view.setViewportView(panelParalelo);
+           }
         }
     }//GEN-LAST:event_opcionParaleloActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (opcionSerie.isSelected()) {
             panelSerie.add();
-            view.updateUI();
+        } else {
+            if (opcionParalelo.isSelected()) {
+                panelParalelo.add();
+            }
         }
+        view.updateUI();
+        view.setBorder(null);
+        updateRS();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (opcionSerie.isSelected()) {
             panelSerie.remove();
-            view.updateUI();
+        } else {
+            if (opcionParalelo.isSelected()) {
+                panelParalelo.remove();
+            }
         }
+        view.updateUI();
+        view.setBorder(null);
+        updateRS();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void resistorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resistorActionPerformed
+        final Circuito c = getLocalCircuito();        
+        if (c != null) {
+            final Object item = resistor.getSelectedItem();
+            if (item instanceof String && !((String) item).isEmpty()) {
+                for (final Resistor r : c.getResistencias()) {
+                    if (r == null)
+                        continue;
+                    
+                    if (r.getName().equals(item)) {
+                        if (r.isEnabled()) {
+                            Notation ampers = Notation.determine(r.getCorriente());
+                            Notation powers = Notation.determine(r.getPotencia());
+                            Notation voltis = Notation.determine(r.getVoltios());
+                            Notation ohmios = Notation.determine(r.getOhmios());
+
+                            r_amperios.setText(Utils.doubleFormat(ampers.getUnscaleNumber()) + ampers.getPrefix().getPrefix());
+                            r_potencia.setText(Utils.doubleFormat(powers.getUnscaleNumber()) + powers.getPrefix().getPrefix());
+                            r_voltios.setText(Utils.doubleFormat(voltis.getUnscaleNumber()) + voltis.getPrefix().getPrefix());
+                            r_ohmios.setText(Utils.doubleFormat(ohmios.getUnscaleNumber()) + ohmios.getPrefix().getPrefix());
+                        } else {                        
+                            r_amperios.setText("0");
+                            r_potencia.setText("0");
+                            r_voltios.setText("0");
+                            r_ohmios.setText("0");
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_resistorActionPerformed
+
+    private void fiedlVoltKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fiedlVoltKeyReleased
+        synchronized (this) {
+            String ftstr = fiedlVolt.getText();
+            if (ftstr == null 
+                    || ftstr.isEmpty()) {
+                return;
+            }
+            
+            try {
+                double ftv = Double.parseDouble(ftstr);
+                if (panelParalelo != null) {
+                    panelParalelo.setFuente(ftv);
+                }
+                if (panelSerie != null) {
+                    panelSerie.setFuente(ftv);
+                }
+                updateNTVol();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El valor \"" + ftstr + "\" no es valido.", "Error - " + Window.TITLE,
+                                                JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_fiedlVoltKeyReleased
+
+    private void ntVolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ntVolActionPerformed
+        updateNTVol();
+    }//GEN-LAST:event_ntVolActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField At;
+    private javax.swing.JTextField Pt;
+    private javax.swing.JTextField Rt;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField fiedlVolt;
     private javax.swing.JLabel icon;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -476,16 +691,14 @@ public class PanelCircuitos extends JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JComboBox<String> ntVol;
     private javax.swing.JRadioButton opcionParalelo;
     private javax.swing.JRadioButton opcionSerie;
+    private javax.swing.JTextField r_amperios;
+    private javax.swing.JTextField r_ohmios;
+    private javax.swing.JTextField r_potencia;
+    private javax.swing.JTextField r_voltios;
+    private javax.swing.JComboBox<String> resistor;
     private javax.swing.JScrollPane view;
     // End of variables declaration//GEN-END:variables
 }

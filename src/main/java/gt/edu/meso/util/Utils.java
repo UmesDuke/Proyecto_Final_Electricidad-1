@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
 public class Utils {
     
     public static String doubleFormat(double val) {
-        DecimalFormat format = new DecimalFormat("#.00");
+        DecimalFormat format = new DecimalFormat("###.##");
         return format.format(val);
     }
     

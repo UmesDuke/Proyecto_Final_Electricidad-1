@@ -214,7 +214,7 @@ public class Notation {
         //if (prefix.getValue() < 1) {
         //    return number * prefix.getValue();
         //}
-        return number / prefix.getValue();
+        return number == 0 ? 0 : number / prefix.getValue();
     }
     
     /**

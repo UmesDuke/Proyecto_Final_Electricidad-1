@@ -63,6 +63,10 @@ public abstract class Circuito {
     }
     
     public double getAmperajeTotal() {
+        double rt = getResistenciaTotal();
+        if (rt == 0)
+            return 0;
+            
         return fuente / getResistenciaTotal();
     }
     
