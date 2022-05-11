@@ -15,7 +15,10 @@
  */
 package gt.edu.meso.util;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import javax.imageio.ImageIO;
 
 /**
  * @author wil
@@ -23,6 +26,15 @@ import java.text.DecimalFormat;
  * @author santos
  */
 public class Utils {
+    
+    /* Funcion auxiliar para leer las imagenes de la ruta de clase. */
+    public static BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+        try {
+            return ImageIO.read(Utils.class.getResource(pathOnClasspath));
+        } catch (IOException e) {
+            return null;
+        }
+    } 
     
     public static String doubleFormat(double val) {
         DecimalFormat format = new DecimalFormat("###.##");

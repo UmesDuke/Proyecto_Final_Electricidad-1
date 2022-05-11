@@ -24,8 +24,11 @@ import gt.edu.meso.jui.panel.cicuito.PanelParalelo;
 import gt.edu.meso.jui.panel.cicuito.PanelSerie;
 import gt.edu.meso.util.Notation;
 import gt.edu.meso.util.Utils;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
@@ -34,6 +37,9 @@ import javax.swing.JViewport;
  * @author wil
  */
 public class PanelCircuitos extends JPanel {
+    
+    static final BufferedImage IMG_PARALELO = Utils.getImageSuppressExceptions("/Icons/form_paralelo_dark.png");
+    static final BufferedImage IMG_SERIE    = Utils.getImageSuppressExceptions("/Icons/form_serie_dark.png");
     
     private PanelSerie panelSerie;
     private PanelParalelo panelParalelo;
@@ -65,6 +71,10 @@ public class PanelCircuitos extends JPanel {
         
         view.setViewportView(panelSerie);
         updateRS();
+        
+        int w = (int) (IMG_SERIE.getWidth() * 0.35);
+        int h = (int) (IMG_SERIE.getHeight() * 0.35);
+        icon.setIcon(new ImageIcon(IMG_SERIE.getScaledInstance(w, h, Image.SCALE_SMOOTH)));
     }
     
     /**
@@ -385,6 +395,9 @@ public class PanelCircuitos extends JPanel {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 fiedlVoltKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                fiedlVoltKeyTyped(evt);
+            }
         });
 
         ntVol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<default>", "K", "M", "G" }));
@@ -565,7 +578,11 @@ public class PanelCircuitos extends JPanel {
         if (opcionSerie.isSelected()) {
            final JViewport viewport = view.getViewport();
            if (!(viewport.getView() instanceof PanelSerie)) {
+               int w = (int) (IMG_SERIE.getWidth() * 0.35);
+               int h = (int) (IMG_SERIE.getHeight() * 0.35);
+               
                view.setViewportView(panelSerie);
+               icon.setIcon(new ImageIcon(IMG_SERIE.getScaledInstance(w, h, Image.SCALE_SMOOTH)));
            }
         }
     }//GEN-LAST:event_opcionSerieActionPerformed
@@ -574,7 +591,11 @@ public class PanelCircuitos extends JPanel {
         if (opcionParalelo.isSelected()) {
            final JViewport viewport = view.getViewport();
            if (!(viewport.getView() instanceof PanelParalelo)) {
+               int w = (int) (IMG_PARALELO.getWidth() * 0.35);
+               int h = (int) (IMG_PARALELO.getHeight() * 0.35);
+               
                view.setViewportView(panelParalelo);
+               icon.setIcon(new ImageIcon(IMG_PARALELO.getScaledInstance(w, h, Image.SCALE_SMOOTH)));
            }
         }
     }//GEN-LAST:event_opcionParaleloActionPerformed
@@ -664,6 +685,12 @@ public class PanelCircuitos extends JPanel {
     private void ntVolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ntVolActionPerformed
         updateNTVol();
     }//GEN-LAST:event_ntVolActionPerformed
+
+    private void fiedlVoltKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fiedlVoltKeyTyped
+        synchronized (this) {
+            updateNTVol();
+        }
+    }//GEN-LAST:event_fiedlVoltKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField At;

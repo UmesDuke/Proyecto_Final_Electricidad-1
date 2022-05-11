@@ -19,13 +19,12 @@ import com.jme3.util.IntMap;
 
 import gt.edu.meso.Bandas;
 import gt.edu.meso.jui.JColorListCellRenderer;
+
 import gt.edu.meso.util.JColor;
+import gt.edu.meso.util.Utils;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /**
  * La clase <code>Resitor2D</code> se encarga de procesar, dibujar una
@@ -208,13 +207,10 @@ public final class Resitor2D implements Graphics2DRenderer {
             }
         }
     }
-        
+    
     /* Funcion auxiliar para leer las imagenes de la ruta de clase. */
-    protected static BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
-        try {
-            return ImageIO.read(Resitor2D.class.getResource(pathOnClasspath));
-        } catch (IOException e) {
-            return null;
-        }
-    }    
+    @Deprecated
+    public static BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+        return Utils.getImageSuppressExceptions(pathOnClasspath);
+    } 
 }

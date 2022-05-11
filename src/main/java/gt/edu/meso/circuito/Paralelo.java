@@ -16,7 +16,13 @@
 package gt.edu.meso.circuito;
 
 /**
+ * Un <code>Paralelo</code> se encarga de gestionar un circuito
+ * en paralelo.
+ * 
  * @author javier
+ * @version 1.0.0
+ * 
+ * @since 1.0.0
  */
 public class Paralelo extends Circuito {
 

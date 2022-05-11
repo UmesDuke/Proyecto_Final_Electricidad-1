@@ -27,15 +27,26 @@ import java.awt.Dimension;
 import javax.swing.JViewport;
 
 /**
- *
+ * La clase <code>Entrada</code> se encarga de gestionar la pantalla principal,
+ * donde el usuario pueda elegir las diferentes opciones quen estan soportadas
+ * actualmente.
+ * 
  * @author wil
+ * @author santos
+ * @author javier
+ * 
  * @version 1.0.0
  * @since 1.0.0
  */
 public class Entrada extends Window {
 
+    /** Simuladro 2D. */
     private Simulation simulation;
+    
+    /** Resistencia 2D. */
     private Resitor2D resitor2D;
+    
+    /** Administraro de grupos.*/
     private Group group;
     
     /**
@@ -46,23 +57,31 @@ public class Entrada extends Window {
         componentesAdd();
     }
 
-    @Override
+    // inicializa los componentes adicionales
+    @Override// de la clase.
     protected final void componentesAdd() {
         setTitle("Bienvenido");
         center();
         
+        // inicializamos nuestro objetos.
         simulation = new Simulation();
         resitor2D  = new Resitor2D();
         group = new Group();
+        
+        // establecemos los colores del grupo.
         group.setColorUnselected(jPanel2.getBackground());
         group.setColorSelected(new Color(40, 99, 162));
         
+        // establecemos el color de los textos.
         group.setForegrounUnselected(new Color(0, 0, 0));
         group.setForegrounSelected(new Color(255, 255, 255));
         
+        // agregamos los botones al grupo-
         group.add(jButton1);
         group.add(jButton2);
         
+        // agregamos una renderizador al simulador
+        // 2D...
         simulation.addRenderer(resitor2D);
     }
     
@@ -228,44 +247,77 @@ public class Entrada extends Window {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Evento: cierre de ventena.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         exit();
     }//GEN-LAST:event_formWindowClosing
 
+    // Evento: Fase #1.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /* 
+         * Para saber si el usuario quiere la calculadora de bandas, o una
+         * prueba, para ello generamos una ventana emergente que pregundo
+         * los dicho.
+         *
+         */
         final Fase1 fase1 = new Fase1(this, true);
         fase1.center(this);
         fase1.setVisible(true);
         
+        // si el usuario acepto.
         if (fase1.getStatus() == Popup.RET_OK) {
+            
+            // obtenemos el contenido de la vista atual del
+            // 'JScrollPanle' en la interfaz.
             final JViewport viewport  = jScrollPane1.getViewport();
             final Component component = viewport.getView();
-                
+               
+            
             if (fase1.isCalculadorabandas()) {
-                if (component != null && !(component instanceof PanelCalculadora)) {          
+                // verificamos que la vista obtenido no es nula, además
+                // que dicho vista no es una instancia del contenedor(panel)
+                // calculadora, de ser:
+                if (component != null && !(component instanceof PanelCalculadora)) {
+                    // generamos el panel de la calculadora.
                     PanelCalculadora calculadora = new PanelCalculadora();
+                    //establecemos el contexto del simuador al panel.
                     calculadora.setView(simulation.getContext(), resitor2D);
+                    // agregamos la nueva vista.
                     jScrollPane1.setViewportView(calculadora);
                     
+                    // si el simulador esta corriendo, los
+                    // detenemos para reiniciarlo.
                     if (!simulation.isStopped()) {
                         simulation.stop();
                     }
                     
-                    simulation.run();
-                    resitor2D.reset();
+                    simulation.run(); // iniiamos nuevamente el simulador.
+                    resitor2D.reset();// restablecemos los valores.
+                    
+                    // configuramos el tamaño de la pantalla.
                     setSize(new Dimension(1060, 600));
                     calculadora.setFrame(this);
                 }
             } else if (fase1.isPruebaBandas()) {
+                // dato que la clase donde se encuentra la prueba de bandas, es un
+                // JFrames, tebemos que verificar el nombre del componetes actual de
+                // la vista para determinar si es o no un contenedro de pruebas, de se asi:
                 if (component != null && !("UIPruebaBanda".equals(component.getName()))) {
+                    // generamos el contenedor de pruebas para
+                    // las bandas de color.
                     Eje1 eje1 = new Eje1();
+                    //establcemos el simulador al contenedor.
                     eje1.setSimulation(simulation);
+                    //una resistencia 2D.
                     eje1.setResitor2D(resitor2D);
                     
+                    // si el simulador esta corriendo, los
+                    // detenemos para reiniciarlo.
                     if (!simulation.isStopped()) {
                         simulation.stop();
                     }
                     
+                    // Establecemos la vista nueva.
                     jScrollPane1.setViewportView(eje1.getContentPane());
                     setSize(new Dimension(1160, 650));
                 }
@@ -273,23 +325,38 @@ public class Entrada extends Window {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Evento: Fase #2
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Obtenemos la vista actual del usuario.
         final JViewport viewport  = jScrollPane1.getViewport();
         final Component component = viewport.getView();
         
+        // comprobamos si dicho componete no es una instancia
+        // del contenedor de circutor, de se asi:
         if (!(component instanceof PanelCircuitos)) {
+            /*
+            para no generar problemas con la ejecucion del programa, detenemos
+            el simulador(siempre y cuando este en ejecucion).
+            */
             if (!simulation.isStopped()) {
                 simulation.stop();
             }
             
+            // generamos la nueva vista.
             final PanelCircuitos circuitos = new PanelCircuitos();
+            // establecemos la vista.
             jScrollPane1.setViewportView(circuitos);
             
+            // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
             center(null);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     
+    /**
+     * Metodo encargado de cerra la aplicacion, pero primero
+     * pregunta si realmente desea salir(si se puede.).
+     */
     private void exit() {
         final ConfirmarSalida salida = new ConfirmarSalida(this, true);
         salida.center(this);

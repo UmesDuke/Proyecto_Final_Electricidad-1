@@ -631,6 +631,7 @@
       </Properties>
       <Events>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fiedlVoltKeyReleased"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fiedlVoltKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="ntVol">

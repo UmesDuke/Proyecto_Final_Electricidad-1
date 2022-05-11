@@ -19,7 +19,14 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
+ * Clase encargado de simular una carga de datos.
+ * 
  * @author wil
+ * @author javier
+ * @author santos
+ * 
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class Cargador extends Window {
     
@@ -31,34 +38,43 @@ public class Cargador extends Window {
         componentesAdd();
     }
 
+    /*
+    Inicializa los componetes adicionales.*/
     @Override
     protected final void componentesAdd() {
         int w = bg.getWidth(),
             h = bg.getHeight();
                
+        // estable una immagen de fondo.
         final ImageIcon icon = new ImageIcon(new ImageIcon(getClass()
                                                             .getResource("/BG/bg01.jpeg"))
                                                             .getImage()
                                                             .getScaledInstance(w, h, Image.SCALE_SMOOTH));
        
+        // se configura la ventana.
         this.bg.setIcon(icon);       
         this.setTitle("Cargador");
         this.setSize(w, h);
         this.center();
     }
 
+    /** Inicia con al simulacion. */
     private void start() {
         final Thread thread = new Thread(() -> {
             try {
+                //esperamos 1.5seg. iniciar la aplicacion-
                 Thread.sleep(1500);
             } catch (InterruptedException e) { }
             
+            // dispones de etsa venatan.
             Cargador.this.setVisible(false);
             Cargador.this.dispose();
             
+            // vizualizamo la nueva ventana.
             final Entrada entrada = new Entrada();
             entrada.setVisible(true);
         });
+        // configuramos e iniciamios el hilo.
         thread.setDaemon(true);
         thread.start();
     }

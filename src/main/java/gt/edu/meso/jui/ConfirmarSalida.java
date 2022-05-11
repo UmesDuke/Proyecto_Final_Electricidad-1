@@ -18,12 +18,19 @@ package gt.edu.meso.jui;
 import java.awt.Frame;
 
 /**
+ * Una ventana emergente que confirma si el usuario quiere salir
+ * y cerra la aplicacion.
+ * 
  * @author wil
+ * @author santos
+ * @author javier
+ * 
  * @version 1.0.0
  * @since 1.0.0
  */
 public class ConfirmarSalida extends Popup {
     
+    // constructor de la clase.
     public ConfirmarSalida(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
