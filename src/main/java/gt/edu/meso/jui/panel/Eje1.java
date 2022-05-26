@@ -24,6 +24,7 @@ import gt.edu.meso.framework.Simulation;
 
 import gt.edu.meso.util.JColor;
 import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Theme;
 
 import java.awt.HeadlessException;
 
@@ -49,6 +50,15 @@ public class Eje1 extends JFrame {
     public Eje1() {
         initComponents();
         getContentPane().setName("UIPruebaBanda");
+        root.setBackground(Theme.getColor("color.dark.panel"));
+        
+        jLabel1.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel2.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel3.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel4.setForeground(Theme.getColor("color.dark.fg"));
+        
+        lab_Minutos.setForeground(Theme.getColor("color.dark.fg"));
+        lab_Segundos.setForeground(Theme.getColor("color.dark.fg"));
     }
     
     @SuppressWarnings("unchecked")
@@ -116,6 +126,7 @@ public class Eje1 extends JFrame {
         });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setOpaque(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,6 +140,7 @@ public class Eje1 extends JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setOpaque(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -142,6 +154,7 @@ public class Eje1 extends JFrame {
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setOpaque(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

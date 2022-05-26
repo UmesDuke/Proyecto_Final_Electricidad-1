@@ -34,7 +34,7 @@ project(":assets") {
 dependencies {
   // JARS
   implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation files('libs/monkey-v1.0.0.jar');
+  implementation files('libs/lib-monkey-v1.0.5');
 
   // jme3
   implementation "org.jmonkeyengine:jme3-core:$jmeVer"
@@ -46,6 +46,10 @@ dependencies {
 
   // https://mvnrepository.com/artifact/org.json/json
   implementation group: 'org.json', name: 'json', version: '20220320'
+
+  // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+  implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+
 }
 
 jar {

@@ -17,6 +17,7 @@ package gt.edu.meso.jui;
 
 import gt.edu.meso.framework.Resitor2D;
 import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Theme;
 import java.awt.Frame;
 
 /**
@@ -36,6 +37,14 @@ public class InfoCalculadoraResistencia extends Popup {
     protected final void componentesAdd() {
         setDefaultButton(jButton1);
         setTitle("Informacion");
+        
+        jPanel1.setBackground(Theme.getColor("color.dark.panel"));
+        
+        jLabel5.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel7.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel10.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel12.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel13.setForeground(Theme.getColor("color.dark.fg"));
     }
     
     @SuppressWarnings("unchecked")

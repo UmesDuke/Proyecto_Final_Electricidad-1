@@ -17,6 +17,8 @@ package gt.edu.meso.jui.panel.cicuito;
 
 import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.util.PanelTree;
+import gt.edu.meso.util.Theme;
+import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -26,7 +28,7 @@ import javax.swing.JPanel;
 public abstract class JPanelCircuito extends JPanel {
     
     protected PanelTree tree;
-    private Cambios cambios;
+    private CambioNombre cambioNombre;
     
     public JPanelCircuito() {
         this.tree = new PanelTree(this);
@@ -48,35 +50,32 @@ public abstract class JPanelCircuito extends JPanel {
         c.agregar(p1.getResistor());
         c.agregar(p2.getResistor());
         c.agregar(p3.getResistor());
-    }
-    
-    public void addCambiosListener(Cambios<? extends Circuito> c) {
-        this.cambios = c;
-        this.checkEVT();
-    }
-    
-    private void checkEVT() {
-        if (cambios == null)
-            return;
         
-        for (final JComponent jc : tree.getComponents()) {
-            if (jc == null)
-                continue;
-            
-            if (jc instanceof PanelResistencia) {
-                if (((PanelResistencia) jc).getCambios() != cambios) {
-                    ((PanelResistencia) jc).setCambios(cambios);
-                }
-            }
-        }
+        setBackground(Theme.getColor("color.dark.panel"));
+    }
+    
+    public void addCambioNombre(CambioNombre evt) {
+        this.cambioNombre = evt;
     }
     
     public void add() {
-        PanelResistencia panel = new PanelResistencia("R" + (getCircuito().cantidad() +1), getCircuito(), true);
-        panel.setCambios(cambios);
-        
+        PanelResistencia panel = new PanelResistencia("R" + (getCircuito().cantidad() +1), getCircuito(), true);        
         tree.add(panel);        
         getCircuito().agregar(panel.getResistor());
+        
+        if (cambioNombre != null) {
+            final ArrayList<String> array = new ArrayList<>();
+            for (final JComponent jc : tree.getComponents()) {
+                if (jc == null)
+                    continue;
+
+                if (jc instanceof PanelResistencia) {
+                    array.add(((PanelResistencia) jc).getID());
+                }
+            }
+            
+            cambioNombre.change(array.toArray(new String[0]));
+        }
     }
     
     public void remove() {
@@ -97,15 +96,38 @@ public abstract class JPanelCircuito extends JPanel {
         updateName();
     }
     
-    protected void updateName() {
-        int i = 1;
+    public void start() {
         for (final JComponent jc : tree.getComponents()) {
             if (jc == null)
                 continue;
             
             if (jc instanceof PanelResistencia) {
-                ((PanelResistencia) jc).setID("R" + (i++));
+                ((PanelResistencia) jc).setLocalOhmios();
             }
+        }
+        
+        final Circuito c = getCircuito();
+        if (c != null)
+            c.start();
+    }
+    
+    protected void updateName() {
+        int i = 1;
+        
+        final ArrayList<String> array = new ArrayList<>();
+        for (final JComponent jc : tree.getComponents()) {
+            if (jc == null)
+                continue;
+            
+            if (jc instanceof PanelResistencia) {
+                String name = ("R" + (i++));
+                
+                ((PanelResistencia) jc).setID(name);
+                array.add(name);
+            }
+        }
+        if (cambioNombre != null) {
+            cambioNombre.change(array.toArray(new String[0]));
         }
     }
     

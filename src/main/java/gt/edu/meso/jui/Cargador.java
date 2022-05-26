@@ -15,6 +15,7 @@
  */
 package gt.edu.meso.jui;
 
+import gt.edu.meso.util.Utils;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -47,7 +48,7 @@ public class Cargador extends Window {
                
         // estable una immagen de fondo.
         final ImageIcon icon = new ImageIcon(new ImageIcon(getClass()
-                                                            .getResource("/BG/bg01.jpeg"))
+                                                            .getResource("/BG/nologo.jpg"))
                                                             .getImage()
                                                             .getScaledInstance(w, h, Image.SCALE_SMOOTH));
        

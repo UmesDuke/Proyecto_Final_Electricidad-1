@@ -15,6 +15,13 @@
  */
 package gt.edu.meso.framework;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
+import com.jme3.export.Savable;
+import java.io.IOException;
+
 /**
  * Clase encargado de gestionar las dimensiones de una recta o
  * cuadrado.
@@ -22,7 +29,7 @@ package gt.edu.meso.framework;
  * @version 1.0.0
  * @since 1.0.0
  */
-public final class Rect implements Cloneable {
+public final class Rect implements Cloneable, Savable {
     
     /** Posicion en el eje {@code x}.*/
     double x;
@@ -135,5 +142,25 @@ public final class Rect implements Cloneable {
             return false;
         }
         return Double.doubleToLongBits(this.height) == Double.doubleToLongBits(other.height);
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        final OutputCapsule out = ex.getCapsule(this);        
+        out.write(x, "x", 0);
+        out.write(y, "y", 0);        
+        out.write(width,  "width",  0);
+        out.write(height, "height", 0);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        final InputCapsule in = im.getCapsule(this);
+        
+        x = in.readDouble("x", x);
+        y = in.readDouble("y", y);
+        
+        width  = in.readDouble("width",  width);
+        height = in.readDouble("height", height);
     }
 }

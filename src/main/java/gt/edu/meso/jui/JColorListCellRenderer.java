@@ -17,9 +17,11 @@ package gt.edu.meso.jui;
 
 import gt.edu.meso.util.JColor;
 import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Theme;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -67,6 +69,7 @@ public final class JColorListCellRenderer extends JPanel implements ListCellRend
     public JColorListCellRenderer(TypeComboModel model) {
         this.model = model;
         initComponents();
+        setBorder(BorderFactory.createLineBorder(Theme.getColor("color.def.box"), 3));
     }
 
     /**
@@ -132,6 +135,7 @@ public final class JColorListCellRenderer extends JPanel implements ListCellRend
                 jlist.setCursor(new Cursor(Cursor.HAND_CURSOR));
             } else {
                 jlist.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                
                 this.setBackground(awtColor);
             }
         }

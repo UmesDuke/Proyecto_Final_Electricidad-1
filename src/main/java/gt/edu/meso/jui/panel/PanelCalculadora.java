@@ -23,6 +23,7 @@ import gt.edu.meso.jui.InfoCalculadoraResistencia;
 import gt.edu.meso.jui.JColorListCellRenderer;
 import gt.edu.meso.util.JColor;
 import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Theme;
 import java.awt.Canvas;
 import java.awt.Frame;
 import javax.swing.DefaultComboBoxModel;
@@ -68,7 +69,23 @@ public class PanelCalculadora extends javax.swing.JPanel {
         bandas4 = new JBanda4();
         bandas5 = new JBanda5();
         info.setVisible(false);
+        
+        setBackground(Theme.getColor("color.dark.panel"));
         set5Bandas(false);
+        
+        jLabel1.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel2.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel3.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel4.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel5.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel6.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel7.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel8.setForeground(Theme.getColor("color.dark.fg"));
+        out.setForeground(Theme.getColor("color.dark.fg"));
+        
+        opcionBanda4.setForeground(Theme.getColor("color.dark.fg"));
+        opcionBanda5.setForeground(Theme.getColor("color.dark.fg"));
+        jPanel1.setBackground(Theme.getColor("color.dark.panel"));
     }
 
     public void setView(Canvas canvas, Resitor2D resitor2D) {

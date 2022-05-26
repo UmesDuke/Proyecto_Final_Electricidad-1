@@ -17,24 +17,22 @@ package gt.edu.meso.jui.panel.cicuito;
 
 import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.circuito.Paralelo;
-import java.awt.Color;
 
 /**
  *
  * @author wil
  */
 public class PanelParalelo extends JPanelCircuito {
-    private Paralelo circuito;
+    public Paralelo circuito;
 
     public PanelParalelo() {
-        initComponents();
+        PanelParalelo.this.initComponents();
     }
     
     @SuppressWarnings("unchecked")                        
-    private void initComponents() {
+    protected void initComponents() {
         circuito = new Paralelo();
         initDefResistencias();
-        setBackground(new Color(255, 255, 255));
     }
 
     @Override

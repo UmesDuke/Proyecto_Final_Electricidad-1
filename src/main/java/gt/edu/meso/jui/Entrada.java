@@ -15,16 +15,30 @@
  */
 package gt.edu.meso.jui;
 
+import gt.edu.meso.ResetListener;
+import gt.edu.meso.framework.Rect;
 import gt.edu.meso.framework.Resitor2D;
 import gt.edu.meso.framework.Simulation;
+
 import gt.edu.meso.jui.panel.Eje1;
 import gt.edu.meso.jui.panel.PanelCalculadora;
 import gt.edu.meso.jui.panel.PanelCircuitos;
+import gt.edu.meso.jui.panel.PanelDivisor;
+
 import gt.edu.meso.util.Group;
+import gt.edu.meso.util.Theme;
+import gt.edu.meso.util.Utils;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.Point;
+
 import javax.swing.JViewport;
+
+import org.monkey.JmeProperties;
 
 /**
  * La clase <code>Entrada</code> se encarga de gestionar la pantalla principal,
@@ -48,11 +62,15 @@ public class Entrada extends Window {
     
     /** Administraro de grupos.*/
     private Group group;
+    private Config config;
     
     /**
      * Creates new form Entrada
      */
     public Entrada() {
+        Rect rect = Utils.getProperties().optSavable("ComponentEvent.size", new Rect(0, 0, 875, 530));
+        setPreferredSize(new Dimension(rect.getWidth(), rect.getHeight()));
+        
         initComponents();
         componentesAdd();
     }
@@ -66,6 +84,7 @@ public class Entrada extends Window {
         // inicializamos nuestro objetos.
         simulation = new Simulation();
         resitor2D  = new Resitor2D();
+        config= new Config(this);
         group = new Group();
         
         // establecemos los colores del grupo.
@@ -73,16 +92,45 @@ public class Entrada extends Window {
         group.setColorSelected(new Color(40, 99, 162));
         
         // establecemos el color de los textos.
-        group.setForegrounUnselected(new Color(0, 0, 0));
+        group.setForegrounUnselected(Theme.getColor("color.dark.fg"));
         group.setForegrounSelected(new Color(255, 255, 255));
         
         // agregamos los botones al grupo-
         group.add(jButton1);
         group.add(jButton2);
+        group.add(jButton3);
+        group.add(jButton4);
+        
+        // evento de la ventana de configuracion
+        config.setResetListener((java.awt.Window... windows) -> {
+            for (java.awt.Window w : windows) {
+                w.setVisible(false);
+                w.dispose();
+            }
+            
+            setVisible(false);
+            dispose();
+            
+            EventQueue.invokeLater(() -> {
+                new Cargador().setVisible(true);
+            });
+        });
         
         // agregamos una renderizador al simulador
         // 2D...
-        simulation.addRenderer(resitor2D);
+        simulation.addRenderer(resitor2D);        
+        if (Utils.getProperties().optBoolean("WindowEvent.MAXIMIZED_BOTH")) {
+            setExtendedState(Frame.MAXIMIZED_BOTH);
+        }
+        
+        jPanel1.setBackground(Theme.getColor("color.dark.panel"));
+        jPanel4.setBackground(Theme.getColor("color.dark.panel"));
+        
+        jLabel2.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel5.setForeground(Theme.getColor("color.dark.fg"));
+        
+        jLabel6.setForeground(Theme.getColor("color.def.fg"));
+        jLabel7.setForeground(Theme.getColor("color.def.fg"));
     }
     
     /**
@@ -102,6 +150,9 @@ public class Entrada extends Window {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -109,6 +160,11 @@ public class Entrada extends Window {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -157,16 +213,58 @@ public class Entrada extends Window {
             }
         });
 
+        jButton3.setText("    Divisor Volt/Amp");
+        jButton3.setBorder(null);
+        jButton3.setBorderPainted(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("    Deslta y/o Estrella");
+        jButton4.setBorder(null);
+        jButton4.setBorderPainted(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/b_tblops.png"))); // NOI18N
+        jButton5.setToolTipText("Configuración...");
+        jButton5.setBorder(null);
+        jButton5.setBorderPainted(false);
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setFocusPainted(false);
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addContainerGap())
             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +275,13 @@ public class Entrada extends Window {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -246,7 +350,7 @@ public class Entrada extends Window {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     // Evento: cierre de ventena.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         exit();
@@ -352,17 +456,93 @@ public class Entrada extends Window {
             center(null);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    // Evento: fase #3
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Obtenemos la vista actual del usuario.
+        final JViewport viewport  = jScrollPane1.getViewport();
+        final Component component = viewport.getView();
+        
+        // comprobamos si dicho componete no es una instancia
+        // del contenedor de divisor de voltate y/o corriente, de ser asi:
+        if (!(component instanceof PanelDivisor)) {
+            /*
+            para no generar problemas con la ejecucion del programa, detenemos
+            el simulador(siempre y cuando este en ejecucion).
+            */
+            if (!simulation.isStopped()) {
+                simulation.stop();
+            }
+            
+            // generamos la nueva vista.
+            final PanelDivisor panelDivisor = new PanelDivisor();
+            // establecemos la vista.
+            jScrollPane1.setViewportView(panelDivisor);
+            
+            // configuarmos la venatana.
+            setSize(new Dimension(1360, 850));
+            center(null);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    // Evento: fase #4
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        final JmeProperties jp = Utils.getProperties();
+        if (evt.getNewState() == Frame.MAXIMIZED_BOTH) {
+            jp.put("WindowEvent.MAXIMIZED_BOTH", true);            
+            Utils.save();
+        } else if (evt.getNewState() == Frame.NORMAL) {
+            jp.put("WindowEvent.MAXIMIZED_BOTH", false);            
+            Utils.save();
+        }
+    }//GEN-LAST:event_formWindowStateChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (!config.isVisible()) {
+            Point p = jButton5.getLocationOnScreen();
+            
+            config.setVisible(true);
+            config.setLocation(p.x + 12, p.y - 110);
+        } else {
+            config.doClose(Popup.RET_CANCEL);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
     
     /**
      * Metodo encargado de cerra la aplicacion, pero primero
      * pregunta si realmente desea salir(si se puede.).
      */
     private void exit() {
-        final ConfirmarSalida salida = new ConfirmarSalida(this, true);
-        salida.center(this);
-        salida.setVisible(true);
+        final JmeProperties jp = Utils.getProperties();
         
-        if (salida.getStatus() == ConfirmarSalida.RET_OK) {
+        Rect rect = jp.optSavable("ComponentEvent.size", new Rect());
+        Dimension size = this.getSize();
+        
+        rect.setWidth(size.getWidth());
+        rect.setHeight(size.getHeight());
+
+            jp.put("ComponentEvent.size", rect);        
+        if (jp.optBoolean("System.exit", true)) {
+            final ConfirmarSalida salida = new ConfirmarSalida(this, true);
+        
+            salida.center(this);
+            salida.setVisible(true);
+
+            jp.put("System.exit", salida.seguirPreguntando());
+            Utils.save();
+            
+            if (salida.getStatus() == ConfirmarSalida.RET_OK) {
+                simulation.stop();
+                System.exit(0);
+            }
+        } else {
+            Utils.save();
             simulation.stop();
             System.exit(0);
         }
@@ -371,6 +551,9 @@ public class Entrada extends Window {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

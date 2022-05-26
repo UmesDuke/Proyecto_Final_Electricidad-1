@@ -15,7 +15,9 @@
  */
 package gt.edu.meso.jui;
 
+import gt.edu.meso.util.Utils;
 import java.awt.Frame;
+import org.monkey.JmeProperties;
 
 /**
  * Una ventana emergente que confirma si el usuario quiere salir
@@ -42,6 +44,10 @@ public class ConfirmarSalida extends Popup {
         super.componentesAdd();        
         setTitle(null);
         setDefaultButton(jButton2);
+    }
+    
+    public boolean seguirPreguntando() {
+        return jCheckBox1.isSelected();
     }
     
     @SuppressWarnings("unchecked")
@@ -75,7 +81,7 @@ public class ConfirmarSalida extends Popup {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/dialogquestion_x64.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Cantarell", 1, 14)); // NOI18N
-        jLabel2.setText("¿Esta seguro de salir y cerrar todas las conexiones con la aplicacion?");
+        jLabel2.setText("Esta seguro de salir y cerrar todas las conexiones con la aplicacion?");
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Siempre preguntar antes de salir...");
@@ -98,7 +104,7 @@ public class ConfirmarSalida extends Popup {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jCheckBox1))
-                        .addGap(0, 51, Short.MAX_VALUE)))
+                        .addGap(0, 57, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

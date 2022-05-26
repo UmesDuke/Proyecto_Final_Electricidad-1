@@ -19,6 +19,8 @@ import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.circuito.Resistor;
 import gt.edu.meso.jui.Window;
 import gt.edu.meso.util.Notation;
+import gt.edu.meso.util.Theme;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -30,7 +32,6 @@ public class PanelResistencia extends JPanel {
 
     private final Resistor resistor;
     private final Circuito circuito;
-    private Cambios cambios;
     
     public PanelResistencia(String name, Circuito circuito, boolean isSelected) {
         initComponents();
@@ -41,6 +42,22 @@ public class PanelResistencia extends JPanel {
         this.resistor = new Resistor();
         this.circuito = circuito;
         this.setID(name);
+        
+        // #Estilos
+        setBackground(Theme.getColor("color.dark.panel"));
+        
+        this.name.setForeground(Theme.getColor("color.dark.fg"));
+        this.in.setForeground(Theme.getColor("color.dark.fg"));
+        this.in.setBackground(Theme.getColor("color.dark.panel"));
+        this.boxNotation.setBackground(Theme.getColor("color.def.box"));
+        
+        jPanel1.setBorder(BorderFactory.createLineBorder(Theme.getColor("color.border")));
+        jPanel1.setBackground(Theme.getColor("color.dark.panel"));
+        
+        boxNotation.setBorder(BorderFactory.createLineBorder(Theme.getColor("color.dark.panel"), 3));
+        boxNotation.setBackground(Theme.getColor("color.dark.panel"));
+        
+        in.setBorder(BorderFactory.createLineBorder(Theme.getColor("color.dark.panel"), 4));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,21 +82,11 @@ public class PanelResistencia extends JPanel {
         in.setForeground(new java.awt.Color(0, 0, 0));
         in.setText("0");
         in.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
-        in.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                inKeyTyped(evt);
-            }
-        });
 
         boxNotation.setBackground(new java.awt.Color(255, 255, 255));
         boxNotation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ohmios", "K Ohmios", "M Ohmios", "G Ohmios" }));
         boxNotation.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
         boxNotation.setFocusable(false);
-        boxNotation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boxNotationActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,7 +131,7 @@ public class PanelResistencia extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
-    void setLocalOhmios() {
+    public void setLocalOhmios() {
         synchronized (this) {
             String value = in.getText();
             if (value == null
@@ -137,12 +144,9 @@ public class PanelResistencia extends JPanel {
                 double d = Double.parseDouble(value);
                 
                 resistor.setOhmios(d);
-                resistor.setEnabled(d > 0);
+                resistor.setEnabled(d != 0);
                 
                 updateNotattion();
-                if (cambios != null) {
-                    cambios.cambio(circuito);
-                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "El valor \"" + value+ "\" no es valido.", "Error - " + Window.TITLE,
                                                 JOptionPane.ERROR_MESSAGE);
@@ -150,17 +154,8 @@ public class PanelResistencia extends JPanel {
         }
     }
     
-    private void inKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inKeyTyped
-        setLocalOhmios();
-    }//GEN-LAST:event_inKeyTyped
-
-    private void boxNotationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxNotationActionPerformed
-        setLocalOhmios();
-    }//GEN-LAST:event_boxNotationActionPerformed
-
-    public void setSelected(boolean selected)  { this.box.setSelected(selected);}
-    public void setCambios(Cambios<?> cambios) { this.cambios = cambios; }
-    public void setID(String name) { 
+    public void setSelected(boolean selected) { this.box.setSelected(selected); }
+    public void setID(String name) {
         this.resistor.setName(name);
         this.box.setToolTipText("Seleccionar " + name);
         this.name.setText(name);       
@@ -168,13 +163,7 @@ public class PanelResistencia extends JPanel {
         
     public boolean isSelected() { return this.box.isSelected(); }    
     public String getID()       { return this.name.getText();   }
-    public Cambios<?> getCambios() { return cambios; }
     public Resistor getResistor()  { return resistor; }
-    
-    @Override
-    public String getName() {
-        return getID();
-    }
     
     void updateNotattion() {
         final Object value = boxNotation.getSelectedItem();

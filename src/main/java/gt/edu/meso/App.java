@@ -18,7 +18,9 @@ package gt.edu.meso;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import gt.edu.meso.jui.Cargador;
+import gt.edu.meso.util.Theme;
 import gt.edu.meso.util.Tipografias;
+import gt.edu.meso.util.Utils;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -50,9 +52,12 @@ public class App {
      * @param args Argumentos de la linea de comando.
      */
     public static void main(String[] args) {
+        Utils.loader();
+        Theme.loadTheme();
+        
         /* Establece FlatIntelliJLaf como look and feel.*/
         try {
-            UIManager.setLookAndFeel(new FlatIntelliJLaf());
+            UIManager.setLookAndFeel(Theme.getNameLookAndFeel());
             
             final Font defFont = Tipografias.loaderFont("/Fonts/Cantarell-test/Cantarell.ttf").deriveFont(Font.PLAIN, 15);
             for (Map.Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
@@ -62,7 +67,8 @@ public class App {
                     UIManager.put(key, new FontUIResource(defFont));
                 }
             }
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | IllegalAccessException | 
+                InstantiationException  | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
         

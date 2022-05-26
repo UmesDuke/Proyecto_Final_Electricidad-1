@@ -23,32 +23,30 @@ import gt.edu.meso.circuito.Serie;
  */
 public class PanelSerie extends JPanelCircuito {
     
-    private Circuito circuitoSerie;
+    protected Serie circuitoSerie;
     
     public PanelSerie() {
         initComponents();
-        componentesAdd();
+        PanelSerie.this.componentesAdd();
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(255, 255, 255));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 228, Short.MAX_VALUE)
+            .addGap(0, 154, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 62, Short.MAX_VALUE)
+            .addGap(0, 61, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    final void componentesAdd() {
+    protected void componentesAdd() {
         circuitoSerie = new Serie();
         initDefResistencias();
     }

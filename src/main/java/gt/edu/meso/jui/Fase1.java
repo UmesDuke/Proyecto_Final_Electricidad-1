@@ -15,7 +15,9 @@
  */
 package gt.edu.meso.jui;
 
+import gt.edu.meso.util.Theme;
 import java.awt.Frame;
+import javax.swing.BorderFactory;
 
 /**
  * @author wil
@@ -33,6 +35,16 @@ public class Fase1 extends Popup {
         super.componentesAdd();
         setTitle("Fase #1");
         setDefaultButton(jButton2);
+        
+        jPanel2.setBackground(Theme.getColor("color.dark.panel"));
+        opcion1.setBackground(Theme.getColor("color.dark.panel"));
+        opcion2.setBackground(Theme.getColor("color.dark.panel"));
+        
+        jLabel3.setForeground(Theme.getColor("color.dark.fg"));
+        jLabel4.setForeground(Theme.getColor("color.dark.fg"));
+        jPanel2.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Theme.getColor("color.border")));
+        opcion1.setBorder(BorderFactory.createLineBorder(Theme.getColor("color.border")));
+        opcion2.setBorder(BorderFactory.createLineBorder(Theme.getColor("color.border")));
     }
     
     @SuppressWarnings("unchecked")
@@ -75,7 +87,7 @@ public class Fase1 extends Popup {
         });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icon_03.png"))); // NOI18N
@@ -97,7 +109,7 @@ public class Fase1 extends Popup {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 102, Short.MAX_VALUE)
+            .addGap(0, 103, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +123,7 @@ public class Fase1 extends Popup {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 103, Short.MAX_VALUE)
+            .addGap(0, 104, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,7 +155,7 @@ public class Fase1 extends Popup {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 35, Short.MAX_VALUE)
+            .addGap(0, 36, Short.MAX_VALUE)
         );
 
         opcion1.setBackground(new java.awt.Color(255, 255, 255));

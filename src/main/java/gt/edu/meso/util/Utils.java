@@ -15,10 +15,22 @@
  */
 package gt.edu.meso.util;
 
+import com.jme3.export.Savable;
+import com.jme3.system.JmeSystem;
+
 import java.awt.image.BufferedImage;
+
+import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
+
+import jme3tools.savegame.SaveGame;
+
+import org.apache.commons.math3.util.Precision;
+import org.monkey.JmeProperties;
 
 /**
  * @author wil
@@ -26,6 +38,36 @@ import javax.imageio.ImageIO;
  * @author santos
  */
 public class Utils {
+
+    private static final Logger LOG = Logger.getLogger(Utils.class.getName());
+    static final String FILE_NAME = "gt_edu_meso_electicidad-1E-wizzard.umes.dat";
+    static final String FILE_HOME = "wizzard-electricidad-1E";    
+    private static JmeProperties PROPERTIES;
+    
+    /** carga los datos de la aplicacion. */
+    public static void loader() {
+        File home = new File(JmeSystem.getStorageFolder(JmeSystem.StorageFolderType.External), FILE_HOME + '/' + FILE_NAME);
+        if (home.exists()) {
+            Savable obj = SaveGame.loadGame(FILE_HOME, FILE_NAME, JmeSystem.StorageFolderType.External);
+            PROPERTIES  = (JmeProperties) obj;
+            LOG.log(Level.INFO, "[ OK ] :Load data => ({0})", home.toURI());
+            
+        } else {
+            PROPERTIES = new JmeProperties();
+            save();
+        }
+    }    
+    /** guardar los cambios de las configuraciones el dicsco. */
+    public static void save() {
+        SaveGame.saveGame(FILE_HOME, FILE_NAME, PROPERTIES, JmeSystem.StorageFolderType.External);
+        
+        File f = new File(JmeSystem.getStorageFolder(JmeSystem.StorageFolderType.External), FILE_HOME + '/' + FILE_NAME);
+        LOG.log(Level.INFO, "[ OK ] :Save data => ({0})", f.toURI());
+    }
+    public static JmeProperties getProperties() {
+        return PROPERTIES;
+    }
+    
     
     /* Funcion auxiliar para leer las imagenes de la ruta de clase. */
     public static BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
@@ -37,11 +79,15 @@ public class Utils {
     } 
     
     public static String doubleFormat(double val) {
-        DecimalFormat format = new DecimalFormat("###.##");
-        return format.format(val);
+        //DecimalFormat format = new DecimalFormat("0.000");
+        //return format.format(val);
+        double d = Precision.round(val, 2);
+        return Double.toString(d);
     }
     
     public static String floatFormat(float val) {
-        return doubleFormat(((Number) val).doubleValue());
+        //return doubleFormat(((Number) val).doubleValue());
+        float f = Precision.round(val, 2);
+        return Float.toString(f);
     }
 }

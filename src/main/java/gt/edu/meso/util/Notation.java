@@ -15,6 +15,11 @@
  */
 package gt.edu.meso.util;
 
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.Savable;
+import java.io.IOException;
+
 
 /**
  * Clase encargado de escalar un numero a una notacion cientifica.
@@ -23,7 +28,7 @@ package gt.edu.meso.util;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class Notation {
+public class Notation implements Savable{
     
     /**
      * Clase enumerara encargado de gestionar los diferentes
@@ -214,7 +219,7 @@ public class Notation {
         //if (prefix.getValue() < 1) {
         //    return number * prefix.getValue();
         //}
-        return number == 0 ? 0 : number / prefix.getValue();
+        return number / prefix.getValue();
     }
     
     /**
@@ -291,4 +296,7 @@ public class Notation {
         //sin notación
         return new Notation(resistencia, Prefix.Default);
     }
+
+    @Override public void write(JmeExporter ex) throws IOException { }
+    @Override public void read(JmeImporter im) throws IOException { }
 }

@@ -16,6 +16,7 @@
 package gt.edu.meso.framework;
 
 import com.jme3.util.SafeArrayList;
+import gt.edu.meso.util.Theme;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -228,7 +229,7 @@ public class Simulation implements Renderer {
         g.clearRect(-w / 2, -h / 2, w, h);
         
         // vamos a dibujar sobre todo con un fondo blanco
-        g.setColor(Color.WHITE);
+        g.setColor(Theme.getColor("color.dark.panel"));
         g.fillRect(-w / 2, -h / 2, w, h);
     }
 
