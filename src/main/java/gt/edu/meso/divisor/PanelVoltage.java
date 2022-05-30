@@ -21,7 +21,7 @@ import gt.edu.meso.jui.panel.cicuito.PanelSerie;
 /**
  * @author wil
  */
-public class PanelVoltage extends PanelSerie {
+public class PanelVoltage extends PanelSerie implements Divisible<Serie> {
 
     private Divisor<Serie> divisor;
     
@@ -34,6 +34,7 @@ public class PanelVoltage extends PanelSerie {
         divisor = new DivisorVoltage(circuitoSerie);
     }
 
+    @Override
     public Divisor<Serie> getDivisor() {
         return divisor;
     }

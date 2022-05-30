@@ -19,7 +19,7 @@ import com.jme3.util.SafeArrayList;
 import gt.edu.meso.util.Theme;
 
 import java.awt.Canvas;
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;

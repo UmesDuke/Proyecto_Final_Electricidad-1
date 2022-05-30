@@ -26,10 +26,7 @@ import org.monkey.JmeProperties;
  *
  * @author wil
  */
-public class DivisorVoltage extends Divisor<Serie> {
-    public static final String KEY_NAM = "div.voltage.name";
-    public static final String KEY_VRX = "div.voltage.value";
-    public static final String KEY_VNT = "div.volatge.notacion";
+public class DivisorVoltage extends Divisor<Serie> {    
     
     public DivisorVoltage(Serie circuito) {
         super(circuito);

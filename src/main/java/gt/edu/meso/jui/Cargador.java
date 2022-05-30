@@ -15,7 +15,7 @@
  */
 package gt.edu.meso.jui;
 
-import gt.edu.meso.util.Utils;
+//import gt.edu.meso.util.Utils;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -113,19 +113,19 @@ public class Cargador extends Window {
 
         jLabel5.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("Santos Misahel Yaxón Tuy");
+        jLabel5.setText("Santos Misahel Yaxon Tuy");
         root.add(jLabel5);
         jLabel5.setBounds(410, 285, 180, 15);
 
         jLabel3.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("Javier Alejandro García Aguilón");
+        jLabel3.setText("Javier Alejandro Garcia Aguilon");
         root.add(jLabel3);
         jLabel3.setBounds(410, 300, 180, 19);
 
         jLabel1.setFont(new java.awt.Font("Cantarell", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("Wilson Martín Cabrera Juárez");
+        jLabel1.setText("Wilson Martin Cabrera Juarez");
         root.add(jLabel1);
         jLabel1.setBounds(410, 270, 190, 15);
 

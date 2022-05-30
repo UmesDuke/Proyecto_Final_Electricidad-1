@@ -25,6 +25,9 @@ import org.monkey.JmeProperties;
  * @param <E>
  */
 public abstract class Divisor<E extends Circuito> {
+    public static final String KEY_NAM = "div.name";
+    public static final String KEY_VRX = "div.value";
+    public static final String KEY_VNT = "div.notacion";
    
     /** Circuito. */
     protected E circuito;

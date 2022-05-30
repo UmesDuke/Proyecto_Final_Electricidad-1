@@ -15,8 +15,6 @@
  */
 package gt.edu.meso;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
-
 import gt.edu.meso.jui.Cargador;
 import gt.edu.meso.util.Theme;
 import gt.edu.meso.util.Tipografias;
@@ -52,7 +50,10 @@ public class App {
      * @param args Argumentos de la linea de comando.
      */
     public static void main(String[] args) {
+        // cargamos los datos de la aplicacion.
         Utils.loader();
+        
+        // cargamos los datos del detma.
         Theme.loadTheme();
         
         /* Establece FlatIntelliJLaf como look and feel.*/
@@ -72,6 +73,8 @@ public class App {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        // cargamos las tipografias(funetes) que utiliza
+        // la aplicacion en su interfaz grafica.
         Tipografias.loaderFonts();
         
         //</editor-fold>

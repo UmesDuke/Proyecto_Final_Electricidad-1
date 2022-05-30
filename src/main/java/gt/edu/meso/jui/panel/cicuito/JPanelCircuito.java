@@ -39,9 +39,9 @@ public abstract class JPanelCircuito extends JPanel {
         if (c == null)
             throw new NullPointerException("Circuito no valido");
         
-        PanelResistencia p1 = new PanelResistencia("R1", c, false);
-        PanelResistencia p2 = new PanelResistencia("R2", c, false);
-        PanelResistencia p3 = new PanelResistencia("R3", c, false);
+        PanelResistencia p1 = new PanelResistencia("R1", false);
+        PanelResistencia p2 = new PanelResistencia("R2", false);
+        PanelResistencia p3 = new PanelResistencia("R3", false);
         
         tree.add(p1);
         tree.add(p2);
@@ -59,7 +59,7 @@ public abstract class JPanelCircuito extends JPanel {
     }
     
     public void add() {
-        PanelResistencia panel = new PanelResistencia("R" + (getCircuito().cantidad() +1), getCircuito(), true);        
+        PanelResistencia panel = new PanelResistencia("R" + (getCircuito().cantidad() +1), true);        
         tree.add(panel);        
         getCircuito().agregar(panel.getResistor());
         
@@ -109,9 +109,10 @@ public abstract class JPanelCircuito extends JPanel {
         final Circuito c = getCircuito();
         if (c != null)
             c.start();
+        updateName();
     }
     
-    protected void updateName() {
+    public void updateName() {
         int i = 1;
         
         final ArrayList<String> array = new ArrayList<>();

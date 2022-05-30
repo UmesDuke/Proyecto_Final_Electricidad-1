@@ -26,9 +26,6 @@ import org.monkey.JmeProperties;
  * @author wil
  */
 public class DivisorCorriente extends Divisor<Paralelo> {
-    public static final String KEY_NAM = "div.corriente.name";
-    public static final String KEY_VRX = "div.corriente.value";
-    public static final String KEY_VNT = "div.corriente.notacion";
 
     public DivisorCorriente(Paralelo circuito) {
         super(circuito);

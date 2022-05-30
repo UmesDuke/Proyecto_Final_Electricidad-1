@@ -15,7 +15,7 @@
  */
 package gt.edu.meso.jui;
 
-import gt.edu.meso.ResetListener;
+//import gt.edu.meso.ResetListener;
 import gt.edu.meso.framework.Rect;
 import gt.edu.meso.framework.Resitor2D;
 import gt.edu.meso.framework.Simulation;
@@ -24,6 +24,8 @@ import gt.edu.meso.jui.panel.Eje1;
 import gt.edu.meso.jui.panel.PanelCalculadora;
 import gt.edu.meso.jui.panel.PanelCircuitos;
 import gt.edu.meso.jui.panel.PanelDivisor;
+import gt.edu.meso.jui.panel.PanelTransformacion;
+import gt.edu.meso.util.CompareDimension;
 
 import gt.edu.meso.util.Group;
 import gt.edu.meso.util.Theme;
@@ -68,7 +70,7 @@ public class Entrada extends Window {
      * Creates new form Entrada
      */
     public Entrada() {
-        Rect rect = Utils.getProperties().optSavable("ComponentEvent.size", new Rect(0, 0, 875, 530));
+        Rect rect = Utils.getProperties().optSavable("ComponentEvent.size", new Rect(0, 0, 795, 613));
         setPreferredSize(new Dimension(rect.getWidth(), rect.getHeight()));
         
         initComponents();
@@ -110,6 +112,10 @@ public class Entrada extends Window {
             
             setVisible(false);
             dispose();
+            
+            if (!simulation.isStopped()) {
+                simulation.stop();
+            }
             
             EventQueue.invokeLater(() -> {
                 new Cargador().setVisible(true);
@@ -224,7 +230,7 @@ public class Entrada extends Window {
             }
         });
 
-        jButton4.setText("    Deslta y/o Estrella");
+        jButton4.setText("    Delta y/o Estrella");
         jButton4.setBorder(null);
         jButton4.setBorderPainted(false);
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -326,7 +332,7 @@ public class Entrada extends Window {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addContainerGap(380, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel4);
@@ -338,12 +344,12 @@ public class Entrada extends Window {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -453,7 +459,6 @@ public class Entrada extends Window {
             
             // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
-            center(null);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -481,15 +486,34 @@ public class Entrada extends Window {
             
             // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
-            center(null);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // Evento: fase #4
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // Obtenemos la vista actual del usuario.
+        final JViewport viewport  = jScrollPane1.getViewport();
+        final Component component = viewport.getView();
         
-        
-        
+        // comprobamos si dicho componete no es una instancia
+        // del contenedor de divisor de voltate y/o corriente, de ser asi:
+        if (!(component instanceof PanelTransformacion)) {
+            /*
+            para no generar problemas con la ejecucion del programa, detenemos
+            el simulador(siempre y cuando este en ejecucion).
+            */
+            if (!simulation.isStopped()) {
+                simulation.stop();
+            }
+            
+            // generamos la nueva vista.
+            final PanelTransformacion panelDivisor = new PanelTransformacion();
+            // establecemos la vista.
+            jScrollPane1.setViewportView(panelDivisor);
+            
+            // configuarmos la venatana.
+            setSize(new Dimension(1360, 850));
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
@@ -513,6 +537,15 @@ public class Entrada extends Window {
             config.doClose(Popup.RET_CANCEL);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+    
+    @Override
+    public void setSize(Dimension d) {
+        if (getExtendedState() != Frame.MAXIMIZED_BOTH) {
+            if (CompareDimension.doCompare(getSize(), d) < 0) {
+                super.setSize(d);
+            }
+        }
+    }
     
     /**
      * Metodo encargado de cerra la aplicacion, pero primero

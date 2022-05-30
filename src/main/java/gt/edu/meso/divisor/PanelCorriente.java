@@ -21,7 +21,7 @@ import gt.edu.meso.jui.panel.cicuito.PanelParalelo;
 /**
  * @author wil
  */
-public class PanelCorriente extends PanelParalelo {
+public class PanelCorriente extends PanelParalelo implements Divisible<Paralelo> {
     
     private Divisor<Paralelo> divisor;
 
@@ -34,6 +34,7 @@ public class PanelCorriente extends PanelParalelo {
         divisor = new DivisorCorriente(circuito);
     }
 
+    @Override
     public Divisor<Paralelo> getDivisor() {
         return divisor;
     }

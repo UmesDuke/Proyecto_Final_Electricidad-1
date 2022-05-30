@@ -698,6 +698,7 @@ public class PanelCircuitos extends JPanel {
                
                view.setViewportView(panelSerie);
                icon.setIcon(new ImageIcon(IMG_SERIE.getScaledInstance(w, h, Image.SCALE_SMOOTH)));
+               panelSerie.updateName();
            }
         }
     }//GEN-LAST:event_opcionSerieActionPerformed
@@ -711,6 +712,7 @@ public class PanelCircuitos extends JPanel {
                
                view.setViewportView(panelParalelo);
                icon.setIcon(new ImageIcon(IMG_PARALELO.getScaledInstance(w, h, Image.SCALE_SMOOTH)));
+               panelParalelo.updateName();
            }
         }
     }//GEN-LAST:event_opcionParaleloActionPerformed

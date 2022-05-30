@@ -18,9 +18,13 @@ package gt.edu.meso;
 import java.awt.Window;
 
 /**
+ * Encargado de activar un evento de cierre de ventanas.
  * @author wil
+ * @author javier
+ * @author santos
  */
 public interface ResetListener {
     
+    // evento de cierre de evtenas.
     void closeWindow(Window... windows);
 }

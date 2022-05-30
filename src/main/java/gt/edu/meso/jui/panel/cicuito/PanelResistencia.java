@@ -15,11 +15,11 @@
  */
 package gt.edu.meso.jui.panel.cicuito;
 
-import gt.edu.meso.circuito.Circuito;
 import gt.edu.meso.circuito.Resistor;
 import gt.edu.meso.jui.Window;
 import gt.edu.meso.util.Notation;
 import gt.edu.meso.util.Theme;
+
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,16 +31,14 @@ import javax.swing.JPanel;
 public class PanelResistencia extends JPanel {
 
     private final Resistor resistor;
-    private final Circuito circuito;
     
-    public PanelResistencia(String name, Circuito circuito, boolean isSelected) {
+    public PanelResistencia(String name, boolean isSelected) {
         initComponents();
         if (!isSelected) {
             box.setSelected(false);
             box.setVisible(false);
         }
         this.resistor = new Resistor();
-        this.circuito = circuito;
         this.setID(name);
         
         // #Estilos
