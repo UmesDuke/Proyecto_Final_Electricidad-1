@@ -39,6 +39,7 @@ import java.awt.Frame;
 import java.awt.Point;
 
 import javax.swing.JViewport;
+import javax.swing.ScrollPaneConstants;
 
 import org.monkey.JmeProperties;
 
@@ -357,6 +358,17 @@ public class Entrada extends Window {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    // Verifiqcionde scroll vista
+    void checkView() {
+        if (jScrollPane1.getViewport().getView() instanceof PanelTransformacion) {
+            jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        } else {
+            jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        }
+    }
+    
     // Evento: cierre de ventena.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         exit();
@@ -433,6 +445,7 @@ public class Entrada extends Window {
                 }
             }
         }
+        checkView();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Evento: Fase #2
@@ -460,6 +473,7 @@ public class Entrada extends Window {
             // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
         }
+        checkView();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Evento: fase #3
@@ -487,6 +501,7 @@ public class Entrada extends Window {
             // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
         }
+        checkView();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // Evento: fase #4
@@ -514,6 +529,7 @@ public class Entrada extends Window {
             // configuarmos la venatana.
             setSize(new Dimension(1360, 850));
         }
+        checkView();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
