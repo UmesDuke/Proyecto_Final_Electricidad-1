@@ -16,7 +16,7 @@
 package gt.edu.meso.circuito;
 
 /**
- * Un <code>Paralelo</code> se encarga de gestionar un circuito
+ * Un <code>Serie</code> se encarga de gestionar un circuito
  * en serie.
  * 
  * @author santos
