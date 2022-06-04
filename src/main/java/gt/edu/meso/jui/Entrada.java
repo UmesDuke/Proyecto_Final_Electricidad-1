@@ -188,7 +188,6 @@ public class Entrada extends Window {
         jLabel1.setBounds(10, 10, 48, 67);
 
         jLabel2.setFont(new java.awt.Font("Source Sans Pro", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Wizzard");
         jPanel3.add(jLabel2);
         jLabel2.setBounds(60, 20, 86, 31);
@@ -299,15 +298,12 @@ public class Entrada extends Window {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setFont(new java.awt.Font("Source Sans Pro SemiBold", 0, 36)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Bienvenido a Wizzard");
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Universidad Mesoamericana, Primer Semestre Seccion E1");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Proyecto final Electricidad 1");
 
@@ -360,12 +356,12 @@ public class Entrada extends Window {
     
     // Verifiqcionde scroll vista
     void checkView() {
-        if (jScrollPane1.getViewport().getView() instanceof PanelTransformacion) {
-            jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        } else {
+        if (jScrollPane1.getViewport().getView() instanceof PanelCalculadora) {
             jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        } else {
+            jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         }
     }
     

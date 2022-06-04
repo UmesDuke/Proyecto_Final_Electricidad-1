@@ -19,16 +19,21 @@ import java.awt.Dimension;
 import java.util.Comparator;
 
 /**
+ * Clase encargado de implementar la interfaz {@link Comparator}, que
+ * se encarga de comparar dos objetos de dimensiones.
+ * 
  * @author wil
  * @author javier
  * @author santos
  */
 public class CompareDimension implements Comparator<Dimension> {
     
+    // Compara dos objeto.
     public static int doCompare(Dimension a, Dimension b) {
         return new CompareDimension().compare(a, b);
     }
     
+    // constructor por defecto.
     private CompareDimension() {
     }
     

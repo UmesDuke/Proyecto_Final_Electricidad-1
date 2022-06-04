@@ -21,12 +21,17 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
+ * Clase encargado de gestionar un arbol de componentes graficos.
  * @author wil
  */
 public class PanelTree {
-static final int DEF = 7;
-    
+static final int DEF = 7; //Cantidad predeterminado de componentes que
+                          // puede tener el arbo.
+
+    /** Lista de componentes. */
     private final ArrayList<JComponent> components;
+    
+    /** Contenedor padre. */
     private final JPanel panel;
     
     public PanelTree(JPanel panel) {
@@ -36,6 +41,7 @@ static final int DEF = 7;
         this.panel   = panel;        
     }
     
+    // agrega un componente al abo.
     public void add(JComponent jc) {
         panel.add(jc);
        
@@ -43,6 +49,8 @@ static final int DEF = 7;
         components.add(jc);
     }
 
+    // verifica el layout del
+    // arbol...
     private void checkLayout() {
         if ((components.size() + 1) < DEF) {
             panel.setLayout(new GridLayout(DEF, 0));
@@ -51,10 +59,12 @@ static final int DEF = 7;
         }
     }
     
+    // devuelve la lista de componentes.
     public ArrayList<JComponent> getComponents() {
         return components;
     }
     
+    // elimina un componete del arbol.
     public synchronized void remove(JComponent jc) {
         panel.remove(jc);
         components.remove(jc);

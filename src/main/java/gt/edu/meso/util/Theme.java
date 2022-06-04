@@ -21,11 +21,18 @@ import java.io.IOException;
 import org.monkey.JmeProperties;
 
 /**
+ * Clase encargado de gestionar el temas de la aplicacion.
  * @author wil
+ * @version 1.0.0
+ * @see 1.0.0
  */
 public class Theme {
+    
+    /** Tipo de temas. */
     public static enum Type {
+        //tema oscuro.
         Dark("/Theme/dark_1E.theme"), 
+        //tema clasro.
         Linght("/Theme/light_1E.theme");
         
         String path;
@@ -34,7 +41,13 @@ public class Theme {
         }
     }
     
+    /** Tema actual de la apliecacion.*/
     static Theme defTheme;
+    
+    /**
+     * Metodo encargado de cargar el tema segun la configuracón
+     * del usuario.
+     */
     public static void loadTheme() {
         final JmeProperties jp = Utils.getProperties();
         try {
@@ -46,9 +59,12 @@ public class Theme {
         }
     }
     
+    //devuelve un color segun la llave,
     public static Color getColor(String key) {
         return new Color(defTheme.user.getInt(key));
     }
+    // devuelve el nombre de la apariencia que utilizara
+    // la ventana o aplicacion.
     public static String getNameLookAndFeel() {
         return defTheme.user.getString("lookAndFeel");
     }

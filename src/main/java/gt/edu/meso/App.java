@@ -34,6 +34,22 @@ import javax.swing.plaf.FontUIResource;
 /**
  * Clase principla encargado de inicializar la intererfaz grafica del
  * usuario....
+ * <pre><code>
+ *  -----------------------------------------------------
+ *  |                   Wizzar v1.0.0               - x |
+ *  -----------------------------------------------------
+ *  |           |                                       |
+ *  |    Menu   |                                       |
+ *  |           |                                       |
+ *  |===========|                                       |
+ *  |  Fase #1  |             Autores:                  |
+ *  |===========|                                       |
+ *  |  Fase #2  |             Javier                    |
+ *  |===========|             Santos                    |
+ *  |   ...     |             Wilson                    |
+ *  |           |                                       |
+ *  ----------------------------------------------------
+ * </code></pre>
  * 
  * @author wil
  * @author Javier

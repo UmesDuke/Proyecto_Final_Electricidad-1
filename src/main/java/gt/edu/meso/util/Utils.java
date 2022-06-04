@@ -39,9 +39,16 @@ import org.monkey.JmeProperties;
  */
 public class Utils {
 
+    /** Logger de la clase <code>Utils</code>. */
     private static final Logger LOG = Logger.getLogger(Utils.class.getName());
+    
+    /** Nombre del fichero donde se guardadn las configuraciones. */
     static final String FILE_NAME = "gt_edu_meso_electicidad-1E-wizzard.umes.dat";
-    static final String FILE_HOME = "wizzard-electricidad-1E";    
+    
+    /** Nombre del directorido de la configuraciones. */
+    static final String FILE_HOME = "wizzard-electricidad-1E";  
+    
+    /** Objeto de propiedades Wizzadr(configuraciones). */
     private static JmeProperties PROPERTIES;
     
     /** carga los datos de la aplicacion. */
